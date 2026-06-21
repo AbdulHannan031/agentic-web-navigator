@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Agentic Web Navigator — Electron <-> Python WebSocket protocol",
+  "description": "All messages are JSON objects with a 'type' field and a 'payload' object. The Python agent runs the WebSocket SERVER; the Electron shell is the CLIENT.",
+  "version": "1.0.0",
+  "messages": {
+    "hello": {
+      "direction": "electron->python",
+      "payload": { "cdpPort": "number", "version": "string" },
+      "description": "Sent by Electron once the browser is up and the CDP port is listening."
+    },
+    "ready": {
+      "direction": "python->electron",
+      "payload": { "status": "string" },
+      "description": "Python confirms it has attached to Chromium over CDP."
+    },
+    "task.start": {
+      "direction": "electron->python",
+      "payload": { "taskId": "string", "instruction": "string" },
+      "description": "User submitted a natural-language task in the agent panel."
+    },
+    "task.cancel": {
+      "direction": "electron->python",
+      "payload": { "taskId": "string" }
+    },
+    "agent.status": {
+      "direction": "python->electron",
+      "payload": { "taskId": "string", "state": "string", "message": "string" },
+      "description": "state in: thinking | acting | waiting_human | done | error"
+    },
+    "agent.action": {
+      "direction": "python->electron",
+      "payload": { "taskId": "string", "step": "number", "tool": "string", "args": "object", "summary": "string" },
+      "description": "One executed action, streamed to the live action log."
+    },
+    "agent.result": {
+      "direction": "python->electron",
+      "payload": { "taskId": "string", "ok": "boolean", "result": "string" }
+    },
+    "human.help.request": {
+      "direction": "python->electron",
+      "payload": { "taskId": "string", "reason": "string", "screenshot": "string|null" },
+      "description": "Agent is blocked (e.g. unsolvable CAPTCHA). Electron shows the takeover overlay."
+    },
+    "human.help.resolved": {
+      "direction": "electron->python",
+      "payload": { "taskId": "string", "note": "string" },
+      "description": "Human finished manual interaction; agent re-observes and resumes."
+    },
+    "ping": { "direction": "both", "payload": {} },
+    "pong": { "direction": "both", "payload": {} }
+  }
+}

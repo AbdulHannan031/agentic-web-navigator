@@ -1,0 +1,18 @@
+{
+  "name": "agentic-web-navigator-shell",
+  "version": "0.1.0",
+  "description": "Custom Chromium browser shell (Electron) for the Agentic Web Navigator.",
+  "main": "src/main/index.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron ."
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^33.0.0"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
